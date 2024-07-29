@@ -3,6 +3,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const _ = require("lodash");
+require("dotenv").config();
 
 //adding mongoose
 const mongoose = require("mongoose");
@@ -17,10 +18,10 @@ app.use(express.static("public"));
 //Mongoose Connect mongodb://localhost:27017/dbName
 async function connectToDatabase() {
   try {
-    await mongoose.connect(
-      "mongodb+srv://admin-piyush:test123@cluster0.gqcgwx7.mongodb.net/todolistDB?retryWrites=true&w=majority",
-      { useNewUrlParser: true, useUnifiedTopology: true }
-    );
+    await mongoose.connect(process.env.MONGO_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     console.log("Connected to Database");
   } catch (error) {
     console.error("Failed to connect to database:", error.message);
@@ -153,5 +154,5 @@ app.get("/about", function (req, res) {
 });
 
 app.listen(3001, function () {
-  console.log("Server started on port 3000");
+  console.log("Server started on port 3001");
 });
